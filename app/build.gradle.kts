@@ -62,8 +62,14 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    testImplementation(libs.androidx.junit.coroutine.test)
+
 
     //Hilt
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
+
+    //coroutine
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.coroutines.android)
 }
