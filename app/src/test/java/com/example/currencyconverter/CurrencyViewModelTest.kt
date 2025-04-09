@@ -44,4 +44,11 @@ class CurrencyViewModelTest {
         viewModel.convertCurrency()
         assertEquals("7.50", viewModel.usdResult.value)
     }
+
+    @Test
+    fun `convertCurrency with invalid input should return 0_00`() = runTest(testDispatcher) {
+        viewModel.onKrwChange("abc") // ← invalid input
+        viewModel.convertCurrency()
+        assertEquals("0.00", viewModel.usdResult.value)
+    }
 }

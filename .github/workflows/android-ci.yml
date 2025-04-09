@@ -1,0 +1,27 @@
+name: Android CI
+
+on:
+  pull_request:
+    branches: [ master, develop ]
+  push:
+    branches: [ master, develop, 'feature/**' ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Grant Gradle permission
+        run: chmod +x ./gradlew
+
+      - name: Run Unit Tests
+        run: ./gradlew CurrencyViewModelTest
