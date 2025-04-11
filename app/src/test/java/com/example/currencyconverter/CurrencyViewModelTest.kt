@@ -1,5 +1,6 @@
 package com.example.currencyconverter
 
+import com.example.currencyconverter.currencyConverterMainFunction.ui.CurrencyRepository
 import com.example.currencyconverter.currencyConverterMainFunction.ui.CurrencyViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -30,7 +31,8 @@ class CurrencyViewModelTest {
     @Before
     fun setUp() {
         Dispatchers.setMain(testDispatcher)
-        viewModel = CurrencyViewModel()
+        val fakeRepo = FakeCurrencyRepository()
+        viewModel = CurrencyViewModel(fakeRepo)
     }
 
     @After
@@ -39,10 +41,10 @@ class CurrencyViewModelTest {
     }
 
     @Test
-    fun `convertCurrency should calculate correct USD value`() = runTest(testDispatcher) {
+    fun `convertCurrency should calculate using fake exchange rate`() = runTest(testDispatcher) {
         viewModel.onKrwChange("10000")
         viewModel.convertCurrency()
-        assertEquals("7.50", viewModel.usdResult.value)
+        assertEquals("12.30", viewModel.usdResult.value)
     }
 
     @Test
@@ -50,5 +52,11 @@ class CurrencyViewModelTest {
         viewModel.onKrwChange("abc") // ← invalid input
         viewModel.convertCurrency()
         assertEquals("0.00", viewModel.usdResult.value)
+    }
+}
+
+class FakeCurrencyRepository : CurrencyRepository {
+    override suspend fun getExchangeRate(from: String, to: String, amount: Double): Double {
+        return amount * 0.00123 // 임의의 고정 환율
     }
 }
