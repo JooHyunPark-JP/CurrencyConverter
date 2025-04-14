@@ -15,6 +15,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 
@@ -22,6 +23,8 @@ import androidx.compose.ui.unit.dp
 fun ConverterUi(viewModel: CurrencyViewModel) {
     val krw by viewModel.krwInput.collectAsState()
     val usd by viewModel.usdResult.collectAsState()
+
+    val errorMessage by viewModel.error.collectAsState()
 
     Column(
         modifier = Modifier
@@ -57,6 +60,13 @@ fun ConverterUi(viewModel: CurrencyViewModel) {
             Text(
                 text = "💵 Result: $usd USD",
                 modifier = Modifier.padding(top = 16.dp)
+            )
+        }
+
+        if (errorMessage != null) {
+            Text(
+                text = errorMessage ?: "",
+                color = Color.Red
             )
         }
     }

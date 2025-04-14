@@ -15,4 +15,6 @@ abstract class CurrencyModule {
     abstract fun bindCurrencyRepository(
         impl: CurrencyRepositoryImpl
     ): CurrencyRepository
+
+
 }
