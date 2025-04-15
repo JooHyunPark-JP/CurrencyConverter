@@ -1,6 +1,7 @@
 package com.example.currencyconverter
 
-import com.example.currencyconverter.currencyConverterMainFunction.ui.CurrencyRepository
+
+import com.example.currencyconverter.currencyConverterMainFunction.fake.FakeCurrencyRepository
 import com.example.currencyconverter.currencyConverterMainFunction.ui.CurrencyViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -52,11 +53,5 @@ class CurrencyViewModelTest {
         viewModel.onKrwChange("abc") // ← invalid input
         viewModel.convertCurrency()
         assertEquals("0.00", viewModel.usdResult.value)
-    }
-}
-
-class FakeCurrencyRepository : CurrencyRepository {
-    override suspend fun getExchangeRate(from: String, to: String, amount: Double): Double {
-        return amount * 0.00123 // 임의의 고정 환율
     }
 }
