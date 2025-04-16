@@ -2,9 +2,11 @@ package com.example.currencyconverter.currencyConverterMainFunction.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.currencyconverter.currencyConverterMainFunction.data.CurrencyUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -13,29 +15,33 @@ class CurrencyViewModel @Inject constructor(
     private val repository: CurrencyRepository
 ) : ViewModel() {
 
-    private val _krwInput = MutableStateFlow("")
-    val krwInput: StateFlow<String> = _krwInput
+    private val _uiState = MutableStateFlow(CurrencyUiState())
+    val uiState: StateFlow<CurrencyUiState> = _uiState
 
-    private val _usdResult = MutableStateFlow("")
-    val usdResult: StateFlow<String> = _usdResult
+    fun onInputChange(value: String) {
+        _uiState.update { it.copy(input = value) }
+    }
 
-    private val _error = MutableStateFlow<String?>(null)
-    val error: StateFlow<String?> = _error
+    fun onFromCurrencyChange(value: String) {
+        _uiState.update { it.copy(from = value) }
+    }
 
-    fun onKrwChange(newValue: String) {
-        _krwInput.value = newValue
+    fun onToCurrencyChange(value: String) {
+        _uiState.update { it.copy(to = value) }
     }
 
     fun convertCurrency() {
         viewModelScope.launch {
-            val amount = _krwInput.value.toDoubleOrNull() ?: 0.0
+            val amount = _uiState.value.input.toDoubleOrNull() ?: 0.0
             try {
-                val usd = repository.getExchangeRate("KRW", "USD", amount)
-                _usdResult.value = "%.2f".format(usd)
-                _error.value = null
+                val rate = repository.getExchangeRate(
+                    from = _uiState.value.from,
+                    to = _uiState.value.to,
+                    amount = amount
+                )
+                _uiState.update { it.copy(result = "%.2f".format(rate), error = null) }
             } catch (e: Exception) {
-                _usdResult.value = ""
-                _error.value = "Failed Currency exchange: ${e.message}"
+                _uiState.update { it.copy(result = "", error = "Failed: ${e.message}") }
             }
         }
     }

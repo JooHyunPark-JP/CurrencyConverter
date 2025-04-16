@@ -5,15 +5,13 @@ import com.example.currencyconverter.currencyConverterMainFunction.fake.FakeCurr
 import com.example.currencyconverter.currencyConverterMainFunction.ui.CurrencyViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
-
-
 import org.junit.After
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 
@@ -43,15 +41,26 @@ class CurrencyViewModelTest {
 
     @Test
     fun `convertCurrency should calculate using fake exchange rate`() = runTest(testDispatcher) {
-        viewModel.onKrwChange("10000")
+        viewModel.onInputChange("10000")
         viewModel.convertCurrency()
-        assertEquals("12.30", viewModel.usdResult.value)
+        val result = viewModel.uiState.value.result
+        assertEquals("12.30", result) // 10000 * 0.00123
     }
 
     @Test
-    fun `convertCurrency with invalid input should return 0_00`() = runTest(testDispatcher) {
-        viewModel.onKrwChange("abc") // ← invalid input
+    fun `convertCurrency with invalid input should result in 0_00`() = runTest(testDispatcher) {
+        viewModel.onInputChange("abc")
         viewModel.convertCurrency()
-        assertEquals("0.00", viewModel.usdResult.value)
+        val result = viewModel.uiState.value.result
+        assertEquals("0.00", result)
+    }
+
+    @Test
+    fun `convertCurrency should update error when exception thrown`() = runTest(testDispatcher) {
+        viewModel.onToCurrencyChange("INVALID")
+        viewModel.onInputChange("1000")
+        viewModel.convertCurrency()
+        val error = viewModel.uiState.value.error
+        assertTrue(error?.contains("Invalid target currency") == true)
     }
 }
