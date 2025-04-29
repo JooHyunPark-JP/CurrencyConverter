@@ -1,12 +1,14 @@
 package com.example.currencyconverter.currencyConverterMainFunction.api
 
 import com.example.currencyconverter.BuildConfig
+import com.example.currencyconverter.currencyConverterMainFunction.data.SupportedCodesResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.request.get
 import io.ktor.client.statement.HttpResponse
 import io.ktor.serialization.kotlinx.json.json
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import javax.inject.Inject
@@ -26,19 +28,29 @@ class CurrencyApiService @Inject constructor() {
 
 
     suspend fun getExchangeRate(from: String, to: String, amount: Double): Double {
-        val response: HttpResponse =
-            client.get("https://v6.exchangerate-api.com/v6/${BuildConfig.CURRENCY_API_KEY}/latest/$from")
-
-        val result: ExchangeRateResponse = response.body()
-
-        val rate = result.conversion_rates[to] ?: throw Exception("Invalid target currency")
-
-        return amount * rate
+        val url =
+            "https://v6.exchangerate-api.com/v6/${BuildConfig.CURRENCY_API_KEY}/pair/$from/$to/$amount"
+        val response: HttpResponse = client.get(url)
+        val json = response.body<ExchangeRateResponse>()
+        return json.conversionResult
     }
+
+    suspend fun getSupportedCurrencies(): List<String> {
+        val url = "https://v6.exchangerate-api.com/v6/${BuildConfig.CURRENCY_API_KEY}/codes"
+        val response: HttpResponse = client.get(url)
+        val result = response.body<SupportedCodesResponse>()
+        return result.supported_codes.map { it[0] }
+    }
+
+    /*    @Serializable
+        data class ExchangeRateResponse(
+            val result: Double
+        )*/
 
     @Serializable
     data class ExchangeRateResponse(
         val result: String,
-        val conversion_rates: Map<String, Double>
+        @SerialName("conversion_result")
+        val conversionResult: Double
     )
 }

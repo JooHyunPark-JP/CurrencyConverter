@@ -1,6 +1,7 @@
 package com.example.currencyconverter.currencyConverterMainFunction.ui
 
 import com.example.currencyconverter.currencyConverterMainFunction.api.CurrencyApiService
+import com.example.currencyconverter.currencyConverterMainFunction.data.CurrencyRepository
 import javax.inject.Inject
 
 class CurrencyRepositoryImpl @Inject constructor(
@@ -9,5 +10,9 @@ class CurrencyRepositoryImpl @Inject constructor(
     override suspend fun getExchangeRate(from: String, to: String, amount: Double): Double {
 
         return apiService.getExchangeRate(from, to, amount)
+    }
+
+    override suspend fun getSupportedCurrencies(): List<String> {
+        return apiService.getSupportedCurrencies()
     }
 }

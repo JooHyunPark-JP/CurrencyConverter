@@ -1,6 +1,6 @@
 package com.example.currencyconverter.currencyConverterMainFunction.di
 
-import com.example.currencyconverter.currencyConverterMainFunction.ui.CurrencyRepository
+import com.example.currencyconverter.currencyConverterMainFunction.data.CurrencyRepository
 import com.example.currencyconverter.currencyConverterMainFunction.ui.CurrencyRepositoryImpl
 import dagger.Binds
 import dagger.Module

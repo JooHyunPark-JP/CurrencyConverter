@@ -2,6 +2,7 @@ package com.example.currencyconverter.currencyConverterMainFunction.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.currencyconverter.currencyConverterMainFunction.data.CurrencyRepository
 import com.example.currencyconverter.currencyConverterMainFunction.data.CurrencyUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -34,14 +35,24 @@ class CurrencyViewModel @Inject constructor(
         viewModelScope.launch {
             val amount = _uiState.value.input.toDoubleOrNull() ?: 0.0
             try {
-                val rate = repository.getExchangeRate(
+                val convertedAmount = repository.getExchangeRate(
                     from = _uiState.value.from,
                     to = _uiState.value.to,
                     amount = amount
                 )
-                _uiState.update { it.copy(result = "%.2f".format(rate), error = null) }
+                _uiState.update {
+                    it.copy(
+                        result = "%.2f".format(convertedAmount),
+                        error = null
+                    )
+                }
             } catch (e: Exception) {
-                _uiState.update { it.copy(result = "", error = "Failed: ${e.message}") }
+                _uiState.update {
+                    it.copy(
+                        result = "",
+                        error = "Failed: ${e.message}"
+                    )
+                }
             }
         }
     }
