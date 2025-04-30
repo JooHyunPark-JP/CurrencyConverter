@@ -19,6 +19,10 @@ class CurrencyViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(CurrencyUiState())
     val uiState: StateFlow<CurrencyUiState> = _uiState
 
+    init {
+        fetchCurrencyList()
+    }
+
     fun onInputChange(value: String) {
         _uiState.update { it.copy(input = value) }
     }
@@ -53,6 +57,17 @@ class CurrencyViewModel @Inject constructor(
                         error = "Failed: ${e.message}"
                     )
                 }
+            }
+        }
+    }
+
+    private fun fetchCurrencyList() {
+        viewModelScope.launch {
+            try {
+                val currencies = repository.getSupportedCurrencies()
+                _uiState.update { it.copy(currencyList = currencies) }
+            } catch (e: Exception) {
+                _uiState.update { it.copy(error = "Failed to load currencies: ${e.message}") }
             }
         }
     }
