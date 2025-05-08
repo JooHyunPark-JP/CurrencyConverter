@@ -6,6 +6,4 @@ plugins {
 
     alias(libs.plugins.hiltAndroid) apply false
     alias(libs.plugins.kotlinAndroidKapt) apply false
-
-    alias(libs.plugins.kotlinSerialization) apply false
 }

@@ -5,11 +5,7 @@ plugins {
 
     alias(libs.plugins.kotlinAndroidKapt)
     alias(libs.plugins.hiltAndroid)
-
-    alias(libs.plugins.kotlinSerialization)
 }
-
-val currencyApiKey: String by project
 
 android {
     namespace = "com.example.currencyconverter"
@@ -23,8 +19,6 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-
-        buildConfigField("String", "CURRENCY_API_KEY", "\"$currencyApiKey\"")
     }
 
     buildTypes {
@@ -45,7 +39,6 @@ android {
     }
     buildFeatures {
         compose = true
-        buildConfig = true
     }
 }
 
@@ -79,10 +72,4 @@ dependencies {
     //coroutine
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.coroutines.android)
-
-    //Ktor
-    implementation(libs.ktor.client.core)
-    implementation(libs.ktor.client.okhttp)
-    implementation(libs.ktor.client.serialization)
-    implementation(libs.ktor.serialization.json)
 }

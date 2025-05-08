@@ -14,9 +14,6 @@ hilt = "2.51.1"
 kapt = "2.1.20"
 coroutines = "1.10.1"
 
-ktorVersion = "3.1.2"
-serialization = "1.8.0"
-
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -40,13 +37,6 @@ hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.r
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
 kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines" }
 
-ktor-client-core = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktorVersion" }
-ktor-client-okhttp = { group = "io.ktor", name = "ktor-client-okhttp", version.ref = "ktorVersion" }
-ktor-client-serialization = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktorVersion" }
-ktor-serialization-json = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktorVersion" }
-
-
-
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -55,8 +45,6 @@ kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "ko
 
 hiltAndroid = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 kotlinAndroidKapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kapt" }
-
-kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "serialization" }
 
 
 
