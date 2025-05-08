@@ -44,7 +44,7 @@ fun ConverterUi(
             label = "From",
             selected = state.from,
             options = state.currencyList,
-            onSelect = onFromCurrencyChange
+            onSelect = { onFromCurrencyChange(it.code) }
         )
 
         // To Currency Dropdown
@@ -52,7 +52,7 @@ fun ConverterUi(
             label = "To",
             selected = state.to,
             options = state.currencyList,
-            onSelect = onToCurrencyChange
+            onSelect = { onToCurrencyChange(it.code) }
         )
 
         OutlinedTextField(

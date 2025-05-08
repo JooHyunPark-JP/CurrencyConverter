@@ -6,5 +6,5 @@ data class CurrencyUiState(
     val input: String = "",
     val result: String = "",
     val error: String? = null,
-    val currencyList: List<String> = emptyList()
+    val currencyList: List<CurrencyInfo> = emptyList()
 )

@@ -1,5 +1,6 @@
 package com.example.currencyconverter.currencyConverterMainFunction.fake
 
+import com.example.currencyconverter.currencyConverterMainFunction.data.CurrencyInfo
 import com.example.currencyconverter.currencyConverterMainFunction.data.CurrencyRepository
 
 //it's for unit testing
@@ -10,7 +11,7 @@ class FakeCurrencyRepository : CurrencyRepository {
         return amount * fakeRate
     }
 
-    override suspend fun getSupportedCurrencies(): List<String> {
+    override suspend fun getSupportedCurrencies(): List<CurrencyInfo> {
         TODO("Not yet implemented")
     }
 }

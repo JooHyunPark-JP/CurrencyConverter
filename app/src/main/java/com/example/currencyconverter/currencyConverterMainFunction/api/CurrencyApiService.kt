@@ -1,6 +1,7 @@
 package com.example.currencyconverter.currencyConverterMainFunction.api
 
 import com.example.currencyconverter.BuildConfig
+import com.example.currencyconverter.currencyConverterMainFunction.data.CurrencyInfo
 import com.example.currencyconverter.currencyConverterMainFunction.data.SupportedCodesResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -35,11 +36,11 @@ class CurrencyApiService @Inject constructor() {
         return json.conversionResult
     }
 
-    suspend fun getSupportedCurrencies(): List<String> {
+    suspend fun getSupportedCurrencies(): List<CurrencyInfo> {
         val url = "https://v6.exchangerate-api.com/v6/${BuildConfig.CURRENCY_API_KEY}/codes"
         val response: HttpResponse = client.get(url)
         val result = response.body<SupportedCodesResponse>()
-        return result.supported_codes.map { it[0] }
+        return result.supported_codes.map { CurrencyInfo(it[0], it[1]) }
     }
 
     /*    @Serializable
