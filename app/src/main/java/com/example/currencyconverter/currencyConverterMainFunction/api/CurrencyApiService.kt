@@ -40,7 +40,7 @@ class CurrencyApiService @Inject constructor() {
         val url = "https://v6.exchangerate-api.com/v6/${BuildConfig.CURRENCY_API_KEY}/codes"
         val response: HttpResponse = client.get(url)
         val result = response.body<SupportedCodesResponse>()
-        return result.supported_codes.map { CurrencyInfo(it[0], it[1]) }
+        return result.supportedCodes.map { CurrencyInfo(it[0], it[1]) }
     }
 
     /*    @Serializable

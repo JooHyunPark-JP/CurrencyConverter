@@ -63,4 +63,18 @@ class CurrencyViewModelTest {
         val error = viewModel.uiState.value.error
         assertTrue(error?.contains("Invalid target currency") == true)
     }
+
+    @Test
+    fun `initial state should have non-empty currency list`() = runTest(testDispatcher) {
+        val currencyList = viewModel.uiState.value.currencyList
+        assertTrue(currencyList.isNotEmpty()) // Check that the list is not empty
+    }
+
+    @Test
+    fun `currency list should contain specific currencies`() = runTest(testDispatcher) {
+        val currencyList = viewModel.uiState.value.currencyList
+        val expectedCurrencies = listOf("USD", "KRW", "JPY", "EUR", "GBP", "AUD", "CAD")
+        val actualCurrencies = currencyList.map { it.code }
+        assertTrue(actualCurrencies.containsAll(expectedCurrencies)) // Check that all expected currencies are present
+    }
 }
