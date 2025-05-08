@@ -1,28 +1,74 @@
 package com.example.currencyconverter.currencyConverterMainFunction.ui
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.currencyconverter.currencyConverterMainFunction.data.CurrencyRepository
+import com.example.currencyconverter.currencyConverterMainFunction.data.CurrencyUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class CurrencyViewModel @Inject constructor() : ViewModel() {
+class CurrencyViewModel @Inject constructor(
+    private val repository: CurrencyRepository
+) : ViewModel() {
 
-    private val _krwInput = MutableStateFlow("")
-    val krwInput: StateFlow<String> = _krwInput
+    private val _uiState = MutableStateFlow(CurrencyUiState())
+    val uiState: StateFlow<CurrencyUiState> = _uiState
 
-    private val _usdResult = MutableStateFlow("")
-    val usdResult: StateFlow<String> = _usdResult
+    init {
+        fetchCurrencyList()
+    }
 
-    fun onKrwChange(newValue: String) {
-        _krwInput.value = newValue
+    fun onInputChange(value: String) {
+        _uiState.update { it.copy(input = value) }
+    }
+
+    fun onFromCurrencyChange(value: String) {
+        _uiState.update { it.copy(from = value) }
+    }
+
+    fun onToCurrencyChange(value: String) {
+        _uiState.update { it.copy(to = value) }
     }
 
     fun convertCurrency() {
-        val krw = _krwInput.value.toDoubleOrNull() ?: 0.0
-        val rate = 0.00075
-        val usd = krw * rate
-        _usdResult.value = "%.2f".format(usd)
+        viewModelScope.launch {
+            val amount = _uiState.value.input.toDoubleOrNull() ?: 0.0
+            try {
+                val convertedAmount = repository.getExchangeRate(
+                    from = _uiState.value.from,
+                    to = _uiState.value.to,
+                    amount = amount
+                )
+                _uiState.update {
+                    it.copy(
+                        result = "%.2f".format(convertedAmount),
+                        error = null
+                    )
+                }
+            } catch (e: Exception) {
+                _uiState.update {
+                    it.copy(
+                        result = "",
+                        error = "Failed: ${e.message}"
+                    )
+                }
+            }
+        }
+    }
+
+    private fun fetchCurrencyList() {
+        viewModelScope.launch {
+            try {
+                val currencies = repository.getSupportedCurrencies()
+                _uiState.update { it.copy(currencyList = currencies) }
+            } catch (e: Exception) {
+                _uiState.update { it.copy(error = "Failed to load currencies: ${e.message}") }
+            }
+        }
     }
 }
