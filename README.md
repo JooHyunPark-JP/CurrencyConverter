@@ -23,5 +23,5 @@ This project was primarily created to learn and practice implementing **Continuo
 ## Additional Note
 - If you want to use your own API key from the **Exchangerate-API** website:
   1. Get your own API key.
-  2. Go to **local.properties**.
+  2. In Android Studio, go to **local.properties**.
   3. Replace the value of `currencyApiKey` with your own key.   
