@@ -27,3 +27,4 @@ This project was primarily created to learn and practice implementing **Continuo
   3. Replace the value of `currencyApiKey` with your own key.
 
 ## ScreenShot
+<img src="./image/currencyConverterFilter.png" alt="Example Image" width="220"/>     <img src="./image/currencyMain.png" alt="Example Image" width="200"/>
