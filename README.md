@@ -1,7 +1,7 @@
 # Currency Converter
 
-Currency Converter is a modern Android application that allows users to convert currencies from one unit to another seamlessly.  
-The app fetches real-time exchange rates using the **Exchangerate-API**, providing accurate and up-to-date conversion results.  
+Currency Converter is a modern Android application that allows users to convert currencies from one unit to another.  
+The app fetches real-time exchange rates using the **Exchangerate-API**. 
 
 This project was primarily created to learn and practice implementing **Continuous Integration (CI)** and **Continuous Delivery (CD)** with **unit testing** using **JUnit**, **MockK**, and **GitHub Actions**.  
 
@@ -24,4 +24,6 @@ This project was primarily created to learn and practice implementing **Continuo
 - If you want to use your own API key from the **Exchangerate-API** website:
   1. Get your own API key.
   2. In Android Studio, go to **local.properties**.
-  3. Replace the value of `currencyApiKey` with your own key.   
+  3. Replace the value of `currencyApiKey` with your own key.
+
+## ScreenShot
