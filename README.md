@@ -3,7 +3,7 @@
 Currency Converter is a modern Android application that allows users to convert currencies from one unit to another.  
 The app fetches real-time exchange rates using the **Exchangerate-API**. 
 
-This project was primarily created to learn and practice implementing **Continuous Integration (CI)** and **Continuous Delivery (CD)** with **unit testing** using **JUnit**, **MockK**, and **GitHub Actions**.  
+This project was primarily created to self-learn and practice implementing **Continuous Integration (CI)** and **Continuous Delivery (CD)** with **unit testing** using **JUnit**, **MockK**, and **GitHub Actions**.  
 
 ## Features
 - **Real-Time Currency Conversion**: Convert between a wide range of international currencies.
