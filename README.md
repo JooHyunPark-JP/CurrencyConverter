@@ -5,6 +5,9 @@ The app fetches real-time exchange rates using the **Exchangerate-API**.
 
 This project was primarily created to self-learn and practice implementing **Continuous Integration (CI)** and **Continuous Delivery (CD)** with **unit testing** using **JUnit**, **MockK**, and **GitHub Actions**.  
 
+## ScreenShot
+<img src="./image/currencyConverterFilter.png" alt="Example Image" width="220"/>     <img src="./image/currencyMain.png" alt="Example Image" width="200"/>
+
 ## Features
 - **Real-Time Currency Conversion**: Convert between a wide range of international currencies.
    - Fetches the most recent rates from the API when converting.
@@ -26,5 +29,3 @@ This project was primarily created to self-learn and practice implementing **Con
   2. In Android Studio, go to **local.properties**.
   3. Replace the value of `currencyApiKey` with your own key.
 
-## ScreenShot
-<img src="./image/currencyConverterFilter.png" alt="Example Image" width="220"/>     <img src="./image/currencyMain.png" alt="Example Image" width="200"/>
